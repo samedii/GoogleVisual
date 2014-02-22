@@ -1,123 +1,65 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
 
-        <link rel="stylesheet" type="text/css" href='css/fullcalendar.css' />
-        <link rel="stylesheet" type="text/css" href='css/fullcalendar.print.css' media='print' />
-        <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.3.2.css" />
+    <link rel="stylesheet" href="css/jquery-ui-1.10.4.css" />
 
-        <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" href="css/index.css" />
 
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
 
+    <script type="text/javascript" src="js/jquery-ui-1.10.4.js"></script>
 
-        <script type="text/javascript" src="js/jquery-1.10.2.js"></script>
-        <script type="text/javascript" src="js/fastclick.js"></script>
-        <script type="text/javascript">
-            $(function() {
-                //Removes 300 ms delay on click on mobiles
-                FastClick.attach(document.body);
-            });
-        </script>
-        <script type="text/javascript" src="js/jquery-ui.custom.min.js"></script>
-        <script type="text/javascript" src="js/jquery.mobile-1.3.2/jquery.mobile-1.3.2.js"></script>
-        <script type="text/javascript" src='js/fullcalendar-1.6.4/fullcalendar.js'></script>
+    <script type="text/javascript" src="js/appEvent.js"></script>
 
-        <script type="text/javascript" src="js/appEvent.js"></script>
+    <script>
+        $(function() {
+            $( "#sortable" ).sortable({
+              items: "li:not(.ui-state-disabled, #tabs *)",
+              placeholder: "ui-state-highlight"
+          });
 
-        <script>
+            $( "#sortable li" ).disableSelection();
+            $( "#tabs" ).tabs();
+        });
+    </script>
+</head>
+<body>
 
-            $(document).ready(function() {
+    <ul id="sortable">
+        <li class="listitem ui-state-default">Keyword vinterkriget</li>
+        <li class="listitem ui-state-default">Exactly finland</li>
+        <li class="listitem ui-state-disabled">
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">Keyword</a></li>
+                    <li><a href="#tabs-2">Exactly</a></li>
+                    <li><a href="#tabs-3">OR/Any</a></li>
+                    <li><a href="#tabs-4">Exclude</a></li>
+                    <li><a href="#tabs-5">Number between</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <p>stuff</p>
+                </div>
+                <div id="tabs-2">
+                    <p>stuff</p>
+                </div>
+                <div id="tabs-3">
+                    <p>stuff</p>
+                </div>
+                <div id="tabs-4">
+                    <p>stuff</p>
+                </div>
+                <div id="tabs-5">
+                    <p>stuff</p>
+                </div>
+            </div>
+        </li>
+    </ul>
 
-                var date = new Date();
-                var d = date.getDate();
-                var m = date.getMonth();
-                var y = date.getFullYear();
-
-                $('#calendar').fullCalendar({
-                    header: {
-                        left: 'prev,next today',
-                        center: 'title',
-                        right: 'month,agendaWeek,agendaDay'
-                    },
-                    editable: true,
-                    events: [
-                        {
-                            title: 'All Day Event',
-                            start: new Date(y, m, 1)
-                        },
-                        {
-                            title: 'Long Event',
-                            start: new Date(y, m, d-5),
-                            end: new Date(y, m, d-2)
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: new Date(y, m, d-3, 16, 0),
-                            allDay: false
-                        },
-                        {
-                            id: 999,
-                            title: 'Repeating Event',
-                            start: new Date(y, m, d+4, 16, 0),
-                            allDay: false
-                        },
-                        {
-                            title: 'Meeting',
-                            start: new Date(y, m, d, 10, 30),
-                            allDay: false
-                        },
-                        {
-                            title: 'Lunch',
-                            start: new Date(y, m, d, 12, 0),
-                            end: new Date(y, m, d, 14, 0),
-                            allDay: false
-                        },
-                        {
-                            title: 'Birthday Party',
-                            start: new Date(y, m, d+1, 19, 0),
-                            end: new Date(y, m, d+1, 22, 30),
-                            allDay: false
-                        },
-                        {
-                            title: 'Click for Google',
-                            start: new Date(y, m, 28),
-                            end: new Date(y, m, 29),
-                            url: 'http://google.com/'
-                        }
-                    ]
-                });
-
-            });
-
-        </script>
-
-    </head>
-    <body>
-
-
-
-    <div data-role='page' id='kalender' data-theme='b'>
-        <div data-role='header' data-position='fixed'>
-            <h1>Kalendertest</h1>
-        </div>
-
-        <div data-role='content' id='login-content'>
-            <div id='calendar'></div>
-        </div>
-
-    </div>
-
-        <!-- WARNING: Unless you test using "phonegap build" and running platform specific code (for example platforms/ios/www) then phonegap functionality won't be available -->
-        <script type="text/javascript" src="phonegap.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+</body>
 </html>
