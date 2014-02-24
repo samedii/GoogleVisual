@@ -26,13 +26,13 @@ var google = (function(google) {
     google.SETTINGS = {
         url: google.adress,
         type: 'GET',
-        dataType: 'JSON-P',
+        dataType: 'jsonp',
         data: {
             cx: google.uniqueCode,
             key: google.browserAPIKey,
             client: "google-csbe",
             alt: "json", //default
-            callback: "handleCallback", //name of function to handle response
+            //callback: "handleCallback", name of function to handle response
             prettyPrint: true, //for debugging
             //cref: google.customSearchEngineURL, //only need cx or cref
             safe: "off",//high medium off
@@ -51,9 +51,16 @@ var google = (function(google) {
         crossDomain: true,
     };
 
-    google.call = function(query) {
-        google.SETTINGS.data.q = query;
-        return $.ajax(google.SETTINGS);
+    google.query = function(query, callback) {
+        var querySettings = $.extend({}, google.SETTINGS);
+        
+        querySettings.data.q = query;
+
+        //For some reason both are necessary
+        querySettings.jsonp = callback;
+        querySettings.data.callback = callback;
+
+        return $.ajax(querySettings);
     };
 
     return google;

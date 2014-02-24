@@ -5,26 +5,60 @@
 var googleVisual = (function(googleVisual) {
 
     //private
-
-    function queryHistoryLength(searchElement) {
-        var length = 0;
-        if (searchElement.queryHistory !== undefined) {
-            length = searchElement.queryHistory.length;
-        }
-        return length;
+    function globalSearchObjectName(searchObject) {
+        return searchObject.searchElement.attr("id");
     }
 
-    function getFullQuery(searchElement) {
-        var fullQueryArr = [];
-        for (var i = 0; i <= searchElement.queryHistory.length - 1; i++) {
-            fullQueryArr[i] = searchElement.queryHistory[i].query;
-        }
-        return fullQueryArr.join('+');
+    function createGlobalSearchObject(searchElementSelector, resultsElementSelector) {
+
+        var searchObject = (function initializeSearchObject(searchObject) {
+
+            //searchObject.searchElementSelector = searchElementSelector;
+            //searchObject.resultsElementSelector = resultsElementSelector;
+
+            searchObject.searchElement = $(searchElementSelector);
+            searchObject.resultsElement = $(resultsElementSelector);
+
+            return searchObject;
+
+        })({});
+
+
+        var searchObject = (function addQueryFunctionality(searchObject) {
+
+            searchObject.queryHistory = [];
+
+            searchObject.getQuery = function getQuery() {
+                var fullQueryArr = [];
+                for (var i = 0; i <= searchObject.queryHistory.length - 1; i++) {
+                    fullQueryArr[i] = searchObject.queryHistory[i].query;
+                }
+                return fullQueryArr.join('+');
+            };
+
+            //Maybe doesn't belong but must be global
+            searchObject.resultHandler = function resultHandler(searchResults) {
+                console.log("Received search results:");
+                console.log(searchResults);
+            };
+            searchObject.globalResultHandlerName = [
+                globalSearchObjectName(searchObject),
+                "resultHandler"
+            ].join('.');
+
+            return searchObject;
+
+        })(searchObject);
+
+        window[globalSearchObjectName(searchObject)] = searchObject;
+
+        return searchObject;
     }
 
-    function startList(searchElement) {
 
-        searchElement.html(
+    function startList(searchObject) {
+
+        searchObject.searchElement.html(
             [
                 '<form id="query">',
                 '<ul id="searchList">',
@@ -37,60 +71,40 @@ var googleVisual = (function(googleVisual) {
             ].join('\n')
         );
 
-        searchElement.find("li.searchBarItem input[type=button]")
-            .click(
+        searchObject.searchElement.find("li.searchBarItem input[type=button]")
+            .on('click',
                 function handleSearchButton(event) {
-                    /*
-                    var loc = URI(window.location);
-                    var fullQuery = loc.query();
-                    var parsedFullQuery = URI.parseQuery(fullQuery);
 
-                    var searchElementId = searchElement.attr("id");
-                    var parsedQuery = parsedFullQuery[searchElementId];
+                    var nextQuery = searchObject.searchElement.find("input[name=nextQuery]").val();
 
-                    var index = 0;
-                    if (parsedQuery !== undefined) {
-                        index = parsedQuery.length;
-                    }
-
-                    var nextQuery = searchElement.find("#nextQuery").val();
-
-
-
-                    loc.query()
-
-                    window.location = loc;
-                    */
-
-                    var nextQuery = searchElement.find("#nextQuery").val();
-
-                    var index = queryHistoryLength(searchElement);
-                    searchElement.queryHistory[index] = {
+                    var index = searchObject.queryHistory.length;
+                    searchObject.queryHistory[index] = {
                         query: nextQuery
                     };
 
-                    google.call(getFullQuery(searchElement));
+                    google.query(searchObject.getQuery(),
+                        searchObject.globalResultHandlerName);
 
                 });
     }
 
-    function setSortable(searchElement) {
+    function setSortable(searchObject) {
         //Set sortable except search bar
-        searchElement.find("#searchList").sortable({
+        searchObject.searchElement.find("#searchList").sortable({
             items: "li:not(.searchBarItem)",
             placeholder: "ui-state-highlight"
         });
 
         //Cannot mark text
-        searchElement.find("#searchList li").disableSelection();
+        searchObject.searchElement.find("#searchList li").disableSelection();
 
     }
 
-    function prependSearchHistoryItem(searchElement) {
-        searchElement.find("ul#searchList").prepend(
+    function addSearchHistoryItem(searchObject, query) {
+        searchObject.searchElement.find("li#searchBarItem").before(
             [
                 '<li class="listitem ui-state-default">',
-                'test',
+                query,
                 //may be useful
                 //'<input type="hidden" name="query" value="something" />',
                 '</li>'
@@ -98,39 +112,26 @@ var googleVisual = (function(googleVisual) {
         );
     }
 
-    function prependSearchHistory(searchElement) {
+    function addSearchHistory(searchObject) {
 
-
-        /*
-        var fullQuery = URI(window.location).query();
-        var parsedFullQuery = URI.parseQuery(fullQuery);
-
-        var searchElementId = searchElement.attr("id");
-        var parsedQuery = parsedFullQuery[searchElementId];
-        console.log(parsedFullQuery.mysearch);
-
-        if (parsedQuery === undefined) {
-            return;
+        for (var i = 0; i <= searchObject.queryHistory.length - 1; i++) {
+            console.log(searchObject.queryHistory[i]);
+            addSearchHistoryItem(searchObject, searchObject.queryHistory[i]);
         }
-*/
-        for (var i = queryHistoryLength(searchElement) - 1; i >= 0; i--) {
-            console.log(searchElement.queryHistory[i]);
-            prependSearchHistoryItem(searchElement);
-        }
-
 
     }
 
     //public
 
-    googleVisual.initialize = function(searchElementSelector) {
+    googleVisual.initialize = function(searchElementSelector, resultsElementSelector) {
         var searchElement = $(searchElementSelector);
+        var resultsElement = $(resultsElementSelector);
 
-        //setting new properties
-        searchElement.queryHistory = {};
+        var searchObject = createGlobalSearchObject(searchElement, resultsElement);
 
-        startList(searchElement);
-        prependSearchHistory(searchElement);
+        //intialize gui
+        startList(searchObject);
+        addSearchHistory(searchObject);
     };
 
     return googleVisual;
