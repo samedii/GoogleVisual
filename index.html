@@ -12,26 +12,21 @@
     <link rel="stylesheet" href="css/index.css" />
 
     <script type="text/javascript" src="js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="js/URI.js"></script>
 
     <script type="text/javascript" src="js/jquery-ui-1.10.4.js"></script>
 
     <script type="text/javascript" src="js/appEvent.js"></script>
     <script type="text/javascript" src="js/google.js"></script>
+    <script type="text/javascript" src="js/googleVisual.js"></script>
 
     <script>
     $(function() {
-        $("#sortable").sortable({
-            items: "li:not(.ui-state-disabled, #tabs *)",
-            placeholder: "ui-state-highlight"
-        });
 
-        $("#sortable li").disableSelection();
-        $("#tabs").tabs();
-
-        $("#query input[type=button]")
-            .click(function(event) {
-                google.call("iftriangeln");
-            });
+        var test = URI(window.location);
+        console.log(test);
+        console.log(URI.parseQuery(test.query()));
+        //http://medialize.github.io/URI.js/
 
     });
     </script>
@@ -39,52 +34,13 @@
 
 <body>
 
-    <ul id="sortable">
-        <li class="listitem ui-state-disabled">
-            <div id="tabs">
-                <ul>
-                    <li><a href="#tabs-1">Custom</a>
-                    </li>
-                    <li><a href="#tabs-2">Exactly</a>
-                    </li>
-                    <li><a href="#tabs-3">OR/Any</a>
-                    </li>
-                    <li><a href="#tabs-4">Exclude</a>
-                    </li>
-                    <li><a href="#tabs-5">Number between</a>
-                    </li>
-                    <li><a href="#tabs-6">And</a>
-                    </li>
-                    <li><a href="#tabs-7">Keyword</a>
-                    </li>
-                </ul>
-                <div id="tabs-1">
-                    <form id="query">
-                        <input class="ui-corner-all" type="text" />
-                        <input type="button" value="Add">
-                    </form>
-                </div>
-                <div id="tabs-2">
-                    <p>stuff</p>
-                </div>
-                <div id="tabs-3">
-                    <p>stuff</p>
-                </div>
-                <div id="tabs-4">
-                    <p>stuff</p>
-                </div>
-                <div id="tabs-5">
-                    <p>stuff</p>
-                </div>
-                <div id="tabs-6">
-                    <p>stuff</p>
-                </div>
-                <div id="tabs-7">
-                    <p>stuff</p>
-                </div>
-            </div>
-        </li>
-    </ul>
+    <div id="mysearch"></div>
+
+    <script>
+    $(function() {
+        googleVisual.initialize("#mysearch");
+    });
+    </script>
 
 </body>
 
