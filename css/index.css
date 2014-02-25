@@ -8,16 +8,12 @@ ul {
 }
 
 li.listitem, .ui-state-highlight {
-    margin: 0 5px 5px 5px;
-    padding: 5px;
-    font-size: 1em;
-    height: 1em;
-}
+    margin: 3px 3px 3px 3px;
+    padding: 6px;
 
-#tabs {
-    font-size: 0.7em;
-    margin: 0 0 0 0;
-    padding: 0 0 0 0;
+    font-size: 1em;
+    height: 1.2em;
+    line-height: 1.2em; /*must be same as height*/
 }
 
 

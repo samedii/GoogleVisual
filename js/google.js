@@ -5,17 +5,9 @@
 var google = (function(google) {
 
     //private
-    function handleSuccess(data, textStatus, jqXHR) {
-        //xmlDoc = $.parseXML( data);
-        $xml = $(data);
-        $userName = $xml.find('USERNAME');
-        var uName = $userName.text();
-    }
 
     //public
 
-    //Should save everything instatial in used element instead
-    //google.adress = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//www.google.com/cse/cse.js';
     google.adress = 'https://www.googleapis.com/customsearch/v1';
     google.uniqueCode = '007751936930598519386:5fgyptlv9gq';
     google.searchEngineId = '007751936930598519386:d7s2bzezgog';
@@ -23,7 +15,7 @@ var google = (function(google) {
     google.browserAPIKey = 'AIzaSyA9VBEPlVD4xub2IkBBw9XUidQ_W1m4h1o';
 
 
-    google.SETTINGS = {
+    google.DEFAULT_SETTINGS = {
         url: google.adress,
         type: 'GET',
         dataType: 'jsonp',
@@ -31,36 +23,34 @@ var google = (function(google) {
             cx: google.uniqueCode,
             key: google.browserAPIKey,
             client: "google-csbe",
-            alt: "json", //default
-            //callback: "handleCallback", name of function to handle response
+            //alt: "json",
             prettyPrint: true, //for debugging
             //cref: google.customSearchEngineURL, //only need cx or cref
-            safe: "off",//high medium off
+            safe: "off", //high medium off
             //ie: utf8
             //oe: utf8
             num: 10, //max is 10 even though spec says 20
             output: "xml_no_dtd"
         },
-        done: handleSuccess,
-        //error: defaultFailFunction,
-        //fail: errorFunction || defaultFailFunction,
-        //complete: defaultCompleteFunction,
-        //always: defaultCompleteFunction,
-        async: true,
-        cache: true,
+        success: function() {
+            console.log("Default success");
+        },
+        error: function() {
+            console.log("Default error");
+        },
+        complete: function() {
+            console.log("Default complete");
+        },
+        //async: true,
+        //cache: false,
         crossDomain: true,
     };
 
-    google.query = function(query, callback) {
-        var querySettings = $.extend({}, google.SETTINGS);
-        
-        querySettings.data.q = query;
+    google.query = function(query, SETTINGS) {
+        SETTINGS = $.extend({}, google.DEFAULT_SETTINGS, SETTINGS);
+        SETTINGS.data.q = query;
 
-        //For some reason both are necessary
-        querySettings.jsonp = callback;
-        querySettings.data.callback = callback;
-
-        return $.ajax(querySettings);
+        return $.ajax(SETTINGS);
     };
 
     return google;
