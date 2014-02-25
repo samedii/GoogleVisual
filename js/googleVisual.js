@@ -5,14 +5,12 @@
 var googleVisual = (function(googleVisual) {
 
     //private
-    function globalSearchObjectName(searchObject) {
-        return searchObject.searchElement.attr("id");
-    }
 
-    function createGlobalSearchObject(searchElementSelector, resultsElementSelector) {
+    function createSearchObject(searchElementSelector, resultsElementSelector) {
 
         var searchObject = (function initializeSearchObject(searchObject) {
 
+            //Could be useful
             //searchObject.searchElementSelector = searchElementSelector;
             //searchObject.resultsElementSelector = resultsElementSelector;
 
@@ -24,33 +22,47 @@ var googleVisual = (function(googleVisual) {
         })({});
 
 
-        var searchObject = (function addQueryFunctionality(searchObject) {
+        searchObject = (function addQueryFunctionality(searchObject) {
 
-            searchObject.queryHistory = [];
+            searchObject.queryList = [];
 
+            //Get full query
             searchObject.getQuery = function getQuery() {
+                /*
                 var fullQueryArr = [];
-                for (var i = 0; i <= searchObject.queryHistory.length - 1; i++) {
-                    fullQueryArr[i] = searchObject.queryHistory[i].query;
+                for (var i = 0; i <= searchObject.queryList.length - 1; i++) {
+                    fullQueryArr[i] = searchObject.queryList[i];
                 }
                 return fullQueryArr.join('+');
+                */
+                return searchObject.queryList.join('+');
             };
 
             //Maybe doesn't belong but must be global
-            searchObject.resultHandler = function resultHandler(searchResults) {
+            searchObject.resultsHandler = function resultsHandler(searchResults) {
                 console.log("Received search results:");
                 console.log(searchResults);
+
+                updateSearchList(searchObject);
             };
-            searchObject.globalResultHandlerName = [
-                globalSearchObjectName(searchObject),
-                "resultHandler"
-            ].join('.');
+
+            //Useful for callback from jsonp
+            searchObject.getGlobalResultsHandlerName = function getGlobalResultsHandlerName() {
+                var index = $.inArray(searchObject, googleVisual.searchObjects);
+                if (index == -1) {
+                    console.log("Error: No search object found");
+                    return -1;
+                }
+                return "googleVisual.searchObjects[" + index + "].resultsHandler";
+            };
 
             return searchObject;
 
         })(searchObject);
 
-        window[globalSearchObjectName(searchObject)] = searchObject;
+        //Give global adress for use with jsonp
+        var index = googleVisual.searchObjects.length;
+        googleVisual.searchObjects[index] = searchObject;
 
         return searchObject;
     }
@@ -77,13 +89,11 @@ var googleVisual = (function(googleVisual) {
 
                     var nextQuery = searchObject.searchElement.find("input[name=nextQuery]").val();
 
-                    var index = searchObject.queryHistory.length;
-                    searchObject.queryHistory[index] = {
-                        query: nextQuery
-                    };
+                    var index = searchObject.queryList.length;
+                    searchObject.queryList[index] = nextQuery;
 
                     google.query(searchObject.getQuery(),
-                        searchObject.globalResultHandlerName);
+                        searchObject.getGlobalResultsHandlerName());
 
                 });
     }
@@ -101,7 +111,7 @@ var googleVisual = (function(googleVisual) {
     }
 
     function addSearchHistoryItem(searchObject, query) {
-        searchObject.searchElement.find("li#searchBarItem").before(
+        searchObject.searchElement.find("li.searchBarItem").before(
             [
                 '<li class="listitem ui-state-default">',
                 query,
@@ -114,24 +124,32 @@ var googleVisual = (function(googleVisual) {
 
     function addSearchHistory(searchObject) {
 
-        for (var i = 0; i <= searchObject.queryHistory.length - 1; i++) {
-            console.log(searchObject.queryHistory[i]);
-            addSearchHistoryItem(searchObject, searchObject.queryHistory[i]);
+        for (var i = 0; i <= searchObject.queryList.length - 1; i++) {
+            console.log(searchObject.queryList[i]);
+            addSearchHistoryItem(searchObject, searchObject.queryList[i]);
         }
 
     }
 
+    function updateSearchList(searchObject) {
+        startList(searchObject);
+        addSearchHistory(searchObject);
+    }
+
     //public
 
+    googleVisual.searchObjects = [];
+
     googleVisual.initialize = function(searchElementSelector, resultsElementSelector) {
+
         var searchElement = $(searchElementSelector);
         var resultsElement = $(resultsElementSelector);
 
-        var searchObject = createGlobalSearchObject(searchElement, resultsElement);
+        var searchObject = createSearchObject(searchElement, resultsElement);
 
         //intialize gui
-        startList(searchObject);
-        addSearchHistory(searchObject);
+
+        updateSearchList(searchObject);
     };
 
     return googleVisual;
