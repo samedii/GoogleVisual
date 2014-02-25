@@ -23,7 +23,7 @@ var googleVisual = (function(googleVisual) {
         })({});
 
 
-        searchObject = (function addGUIFunctionality(searchObject) {
+        searchObject = (function addSearchGUIFunctionality(searchObject) {
 
             function searchBarItemHTML() {
                 return [
@@ -51,9 +51,11 @@ var googleVisual = (function(googleVisual) {
                         //TODO
                         console.log("Error: Handle error please");
                     },
-                    success: function tempDone() {
-                        //TODO
-                        console.log("Handle success please");
+                    success: function tempDone(searchResults) {
+
+                        searchObject.showSearchResults(searchResults);
+
+                        //TODO: Save results
                     },
                     complete: function tempAlways() {
                         //TODO
@@ -111,7 +113,7 @@ var googleVisual = (function(googleVisual) {
             //Get query list from GUI
             searchObject.getQueryList = function getQueryList() {
                 var elements = searchObject.searchElement.find("input[type=hidden]");
-                if(elements.length == 0) {
+                if (elements.length === 0) {
                     return [];
                 }
 
@@ -131,11 +133,41 @@ var googleVisual = (function(googleVisual) {
 
             //Get full query
             searchObject.getQuery = function getQuery(index) {
+
+                var queryList = searchObject.getQueryList();
+
                 if (typeof index !== 'undefined') {
-                    return searchObject.getQueryList()[index];
+                    return queryList[index];
                 } else {
-                    return searchObject.getQueryList().join('+');
+                    return queryList.join('+');
                 }
+            };
+
+            return searchObject;
+
+        })(searchObject);
+
+        searchObject = (function addResultsGUIFunctionality(searchObject) {
+
+            function searchResultsItemHTML(item) {
+                return [
+                    '<li class="searchBarItem">',
+                    '<a href="' + item.link + '">',
+                    '<h4>' + item.htmlTitle + '</h4>',
+                    '</a>',
+                    '<p>' + item.htmlSnippet + '</p>',
+                    '</li>'
+                ].join('\n');
+            }
+
+            searchObject.showSearchResults = function(results) {
+                var searchResultsHTMLArr = [];
+                for (var i = 0; i <= results.items.length - 1; i++) {
+                    searchResultsHTMLArr.push(searchResultsItemHTML(results.items[i]));
+                }
+                var searchResultsHTML = searchResultsHTMLArr.join('\n');
+
+                searchObject.resultsElement.html(searchResultsHTML);
             };
 
             return searchObject;
