@@ -5,7 +5,7 @@
 var googleVisual = (function(googleVisual) {
 
     //private
-    searchObjects = [];
+    var searchObjects = [];
 
     function createSearchObject(searchElementSelector, resultsElementSelector) {
 
