@@ -1,19 +1,33 @@
 a:focus {
     outline: none;
 }
-
 ul {
     list-style-type:none;
     padding: 0;
 }
-
 li.listitem, .ui-state-highlight {
     margin: 3px 3px 3px 3px;
     padding: 6px;
-
     font-size: 1em;
     height: 1.2em;
-    line-height: 1.2em; /*must be same as height*/
+    line-height: 1.2em;
+    /*must be same as height*/
 }
-
-
+.node circle {
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+.node {
+    font: 10px sans-serif;
+}
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+}
+#myPathGraph {
+    width: 300px;
+    height: 300px;
+    background-color: 'red';
+}
