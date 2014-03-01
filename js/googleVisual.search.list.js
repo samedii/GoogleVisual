@@ -2,8 +2,6 @@
  * Created by samedi on 2014-02-23.
  */
 
-googleVisual.search = googleVisual.search || {};
-
 googleVisual.search.list = (function(searchList) {
 
     //private
@@ -74,31 +72,13 @@ googleVisual.search.list = (function(searchList) {
         function handleSearchButton(event) {
 
             var nextQuery = searchListInstance.searchListElement.find("input[name=nextQuery]").val(),
-                queryList = searchListInstance.getQueryList();
+                oldQueryList = searchListInstance.getQueryList();
 
-            addSearchHistoryItem(nextQuery, queryList.length);
+            addSearchHistoryItem(nextQuery, oldQueryList.length);
             var query = searchListInstance.getQuery();
 
-            google.query(query, {
-                error: function tempError() {
-                    //TODO
-                    console.log("Error: Handle error please");
-                },
-                success: function tempSuccess(searchResults) {
-
-                    $(searchListInstance).trigger(googleVisual.search.events.receievedResults, {
-                        "query": query,
-                        "searchResults": searchResults,
-                        "queryList": queryList
-                    });
-
-                    //TODO: Save results
-                },
-                complete: function tempComplete() {
-                    //TODO
-                    console.log("Handle complete please");
-                }
-            });
+            $(searchListInstance).trigger(googleVisual.search.GUIevents.startSearch,
+                query);
 
         }
 

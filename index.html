@@ -19,6 +19,7 @@
 
     <script type="text/javascript" src="js/google.js"></script>
     <script type="text/javascript" src="js/googleVisual.js"></script>
+    <script type="text/javascript" src="js/googleVisual.search.js"></script>
     <script type="text/javascript" src="js/googleVisual.search.list.js"></script>
     <script type="text/javascript" src="js/googleVisual.results.list.js"></script>
     <script type="text/javascript" src="js/googleVisual.graphs.path.js"></script>
@@ -48,10 +49,12 @@
 
     <script>
     $(function() {
+        var search = googleVisual.search.init();
         var searchList = googleVisual.search.list.init("#mysearch");
         var resultsList = googleVisual.results.list.init("#mysearch-results");
 
-        resultsList.listenTo(searchList);
+        search.listenTo(searchList);
+        resultsList.listenTo(search);
 
         googleVisual.graphs.path.initialize("#myPathGraph");
     });

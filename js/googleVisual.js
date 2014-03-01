@@ -8,19 +8,11 @@ var googleVisual = (function(googleVisual) {
 
     //public
 
-    googleVisual.search = {
-        events: {
-            receievedResults: 'GOOGLEVISUAL-RECEIVED_SEARCH_RESULTS'
-        }
-    };
-
     googleVisual.results = {
         events: {
             //placeholder
         }
     };
-
-    googleVisual.searchResults = {};
 
     //should probably move to googleVisual.tools later
     googleVisual.createQuery = function createQuery(queryList) {
