@@ -14,6 +14,8 @@ var googleVisual = (function(googleVisual) {
         }
     };
 
+    googleVisual.graphs = {};
+
     //should probably move to googleVisual.tools later
     googleVisual.createQuery = function createQuery(queryList) {
 

@@ -29,12 +29,6 @@
 
     <script>
     $(function() {
-        /*
-        var test = URI(window.location);
-        console.log(test);
-        console.log(URI.parseQuery(test.query()));
-        //http://medialize.github.io/URI.js/
-*/
 
     });
     </script>
@@ -56,7 +50,11 @@
         search.listenTo(searchList);
         resultsList.listenTo(search);
 
-        googleVisual.graphs.path.initialize("#myPathGraph");
+        var pathGraph = googleVisual.graphs.path.init("#myPathGraph");
+        pathGraph.show({
+            name: "test",
+            children: [{name: "hej"}, {name: "hej2"}]
+        });
     });
     </script>
 

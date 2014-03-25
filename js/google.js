@@ -43,7 +43,7 @@ var google = (function(google) {
         },
         //async: true,
         //cache: false,
-        crossDomain: true,
+        crossDomain: true
     };
 
     google.query = function(query, SETTINGS) {
