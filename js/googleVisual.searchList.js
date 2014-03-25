@@ -2,59 +2,69 @@
  * Created by samedi on 2014-02-23.
  */
 
-googleVisual.search.list = (function(searchList) {
+googleVisual.searchList = (function(searchList) {
 
     //private
-    var searchLists = [];
+    searchList.searchResults = {};
 
     //public
+    searchList.events = {
+        receievedResults: 'GOOGLEVISUAL-RECEIVED_SEARCH_RESULTS'
+    };
+
+
 
     searchList.init = function init(searchListElementSelector) {
-
-        //public
 
         var searchListInstance = (function initialize(searchListInstance) {
 
             searchListInstance.searchListElement = $(searchListElementSelector);
 
-            //try this out
-            //does this work? use __proto__? Too hack:ish?
-            searchListInstance.prototype = searchList;
+            searchListInstance.searchQueryHistory = [];
+            searchListInstance.searchLists = [];
 
             return searchListInstance;
 
         })({});
 
-        //Get full query
-        searchListInstance.getQuery = function getQuery(index) {
-
-            var queryList = searchListInstance.getQueryList();
-
-            return googleVisual.createQuery(queryList);
-        };
-
-        //Get query list from GUI
-        searchListInstance.getQueryList = function getQueryList() {
-            var elements = searchListInstance.searchListElement.find("input[type=hidden]");
-            if (elements.length === 0) {
-                return [];
-            }
-
-            var queries = [];
-            elements.each(function(idx, el) {
-                queries.push($(this).attr('value'));
-            });
-            return queries;
-        };
-
-        //placeholder
-        searchListInstance.listenTo = function listenTo(element) {
-            //nothing atm
-        };
-
 
 
         //private
+
+        function startSearch(event, query) {
+
+            if (searchList.searchResults[query]) {
+                handleSearchSuccess(searchList.searchResults[query]);
+            } else {
+
+                google.query(query, {
+                    success: handleSearchSuccess,
+                    error: function tempError() {
+                        //TODO
+                        console.log("Error: Handle error please");
+                    },
+                    complete: function tempComplete() {
+                        //TODO
+                        console.log("Handle complete please");
+                    }
+                });
+
+            }
+
+            function handleSearchSuccess(searchResults) {
+
+                //Save results
+                searchList.searchResults[query] = searchResults;
+                searchListInstance.searchQueryHistory.push(query);
+
+                //Shout "we got results"
+                $(searchListInstance).trigger(searchList.events.receievedResults, {
+                    "query": query,
+                    "searchResults": searchResults,
+                });
+            }
+
+        }
 
         function searchBarItemHTML() {
             return [
@@ -77,8 +87,8 @@ googleVisual.search.list = (function(searchList) {
             addSearchHistoryItem(nextQuery, oldQueryList.length);
             var query = searchListInstance.getQuery();
 
-            $(searchListInstance).trigger(googleVisual.search.GUIevents.startSearch,
-                query);
+
+            startSearch(event, query);
 
         }
 
@@ -113,6 +123,31 @@ googleVisual.search.list = (function(searchList) {
             searchListInstance.searchListElement.find("#searchList li").disableSelection();
         }
 
+        //public
+
+        //Get full query
+        searchListInstance.getQuery = function getQuery(index) {
+
+            var queryList = searchListInstance.getQueryList();
+
+            return googleVisual.tools.createQuery(queryList);
+        };
+
+        //Get query list from GUI
+        searchListInstance.getQueryList = function getQueryList() {
+            var elements = searchListInstance.searchListElement.find("input[type=hidden]");
+            if (elements.length === 0) {
+                return [];
+            }
+
+            var queries = [];
+            elements.each(function(idx, el) {
+                queries.push($(this).attr('value'));
+            });
+            return queries;
+        };
+ 
+
 
         (function finialize() {
             //Search bar
@@ -125,7 +160,7 @@ googleVisual.search.list = (function(searchList) {
             setSortable();
 
             //Don't let the garbage collector get you
-            searchLists.push(searchListInstance);
+            searchListInstance.searchLists.push(searchListInstance);
 
         })();
 
@@ -139,4 +174,4 @@ googleVisual.search.list = (function(searchList) {
 
     return searchList;
 
-})(googleVisual.search.list || {});
+})(googleVisual.searchList || {});

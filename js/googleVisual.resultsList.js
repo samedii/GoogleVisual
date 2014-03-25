@@ -2,9 +2,8 @@
  * Created by samedi on 2014-02-23.
  */
 
-googleVisual.results = googleVisual.results || {};
 
-googleVisual.results.list = (function(resultsList) {
+googleVisual.resultsList = (function(resultsList) {
 
     //private
     var resultsLists = [];
@@ -29,8 +28,8 @@ googleVisual.results.list = (function(resultsList) {
 
         })({});
 
-        resultsListInstance.listenTo = function listenTo(element) {
-            $(element).on(googleVisual.search.events.receievedResults,
+        resultsListInstance.listenToSearchList = function listenTo(searchList) {
+            $(searchList).on(googleVisual.searchList.events.receievedResults,
                 function handleSearchResults(event, query) {
                     showSearchResults(query.searchResults);
                 });
@@ -76,4 +75,4 @@ googleVisual.results.list = (function(resultsList) {
 
     return resultsList;
 
-})(googleVisual.results.list || {});
+})(googleVisual.resultsList || {});

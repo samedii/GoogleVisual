@@ -19,9 +19,9 @@
 
     <script type="text/javascript" src="js/google.js"></script>
     <script type="text/javascript" src="js/googleVisual.js"></script>
-    <script type="text/javascript" src="js/googleVisual.search.js"></script>
-    <script type="text/javascript" src="js/googleVisual.search.list.js"></script>
-    <script type="text/javascript" src="js/googleVisual.results.list.js"></script>
+    <script type="text/javascript" src="js/googleVisual.tools.js"></script>
+    <script type="text/javascript" src="js/googleVisual.searchList.js"></script>
+    <script type="text/javascript" src="js/googleVisual.resultsList.js"></script>
     <script type="text/javascript" src="js/googleVisual.graphs.path.js"></script>
 
     
@@ -43,18 +43,17 @@
 
     <script>
     $(function() {
-        var search = googleVisual.search.init();
-        var searchList = googleVisual.search.list.init("#mysearch");
-        var resultsList = googleVisual.results.list.init("#mysearch-results");
+        var searchList = googleVisual.searchList.init("#mysearch");
+        var resultsList = googleVisual.resultsList.init("#mysearch-results");
 
-        search.listenTo(searchList);
-        resultsList.listenTo(search);
+        resultsList.listenToSearchList(searchList);
+        //resultsList.listenTo(search);
 
-        var pathGraph = googleVisual.graphs.path.init("#myPathGraph");
+        /*var pathGraph = googleVisual.graphs.path.init("#myPathGraph");
         pathGraph.show({
             name: "test",
             children: [{name: "hej"}, {name: "hej2"}]
-        });
+        });*/
     });
     </script>
 
