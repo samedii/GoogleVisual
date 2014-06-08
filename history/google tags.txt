@@ -1,4 +1,10 @@
-<div class="vR"><span class="vN Y7BVp a3q" email="bahram.sarban@gmail.com"><div class="vT">Bahram Sarban</div><div class="vM"></div></span><input name="to" type="hidden" value="Bahram Sarban <bahram.sarban@gmail.com>"></div>
+<div class="vR">
+	<span class="vN Y7BVp a3q" email="bahram.sarban@gmail.com">
+	<div class="vT">Bahram Sarban</div>
+	<div class="vM"></div>
+	</span>
+	<input name="to" type="hidden" value="Bahram Sarban <bahram.sarban@gmail.com>">
+</div>
 
 .vR {
 font-size: 13px;
@@ -58,3 +64,28 @@ width: 40px;
 }
 
 <textarea rows="1" id=":1cc" class="vO" name="to" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-labelledby=":1hb" aria-haspopup="true" style="width: 323px;"></textarea>
+
+
+WITH TWO
+
+<div id=":1pt" class="oj">
+    <div class="wO nr l1">
+        <input class="wA" tabindex="-1" aria-hidden="true">
+        <div class="vR">
+            <span class="vN Y7BVp a3q" email="bahram.sarban@gmail.com">
+                <div class="vT">Bahram Sarban</div>
+                <div class="vM"></div>
+            </span>
+            <input name="to" type="hidden" value="Bahram Sarban <bahram.sarban@gmail.com>">
+        </div>
+        <div class="vR">
+            <span class="vN Y7BVp a3q" email="pawh95@gmail.com">
+                <div class="vT">Paul Hermanson</div>
+                <div class="vM"></div>
+            </span>
+            <input name="to" type="hidden" value="Paul Hermanson <pawh95@gmail.com>">
+        </div>
+        <textarea rows="1" id=":1t9" class="vO" name="to" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" tabindex="1" dir="ltr" aria-labelledby=":1pu" aria-haspopup="true" style="width: 285px;"></textarea>
+        <div class="aA6"></div>
+    </div>
+</div>

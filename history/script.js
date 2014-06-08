@@ -74,31 +74,29 @@ function HistoryController($scope) {
 
     $scope.queryHistory = [];
 
-    $scope.searchTerms = [];
-
-    $scope.searchText = "";
+    $scope.searchQueryAddition = "";
 
     $scope.currentSearchQuery = "test+speed-bandwidth";
 
     $scope.searchSubmitted = function() {
-        if ($scope.searchText.search(/[\+-\s]/) === -1) {
+        if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
             $scope.currentSearchQuery += '+';
         }
-        $scope.currentSearchQuery += $scope.searchText;
+        $scope.currentSearchQuery += $scope.searchQueryAddition;
         $scope.queryHistory.push($scope.currentSearchQuery);
-        $scope.searchText = "";
+        $scope.searchQueryAddition = "";
     };
 
-    $scope.searchQueryTextChange = function() {
+    $scope.searchQueryAdditionFieldChanged = function() {
         console.log("Detected change");
-        var m = $scope.searchText.match(/.+(?=[\+-\s])/);
+        var m = $scope.searchQueryAddition.match(/.+(?=[\+-\s])/);
         if (m && m.length > 0) {
 
             if (m[0].search(/[\+-\s]/) === -1) {
                 $scope.currentSearchQuery += '+';
             }
             $scope.currentSearchQuery += m;
-            $scope.searchText = $scope.searchText.replace(m, '');
+            $scope.searchQueryAddition = $scope.searchQueryAddition.replace(m, '');
         }
     };
 

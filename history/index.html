@@ -23,8 +23,18 @@
     <div class="bar">
         <!-- Create a binding between the searchString model and the text field -->
         <form ng-submit="searchSubmitted()">
-        	<div ng-repeat="term in (currentSearchQuery | separateTerms)">{{term}}</div>
-            <input type="text" ng-model="searchText" ng-change="searchQueryTextChange()" placeholder="Enter your search terms" />
+            <input name="currentSearchQuery" type="hidden" ng-model="currentSearchQuery">
+            <!-- Visual representation of current search query -->
+            <div class="termsContainer">
+                <div ng-repeat="term in (currentSearchQuery | separateTerms)" class="termBox">
+                    <div class="insideTermBox">
+                        <span class="term">{{term}}</span>
+                        <div class="termCross"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Visual representation of current search query -->
+            <input type="text" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" placeholder="Enter your search terms" />
         </form>
     </div>
 
