@@ -38,7 +38,6 @@ section, footer, header, aside, nav {
     margin: 80px auto 20px;
     position:relative;
 }
-
 ul {
     list-style: none;
     width: 428px;
@@ -122,9 +121,10 @@ ul li p {
     outline: none;
     display: table;
     border-collapse: collapse;
+    width: 400px;
 }
 .termBox {
-	display:table-cell;
+    display:table-cell;
     border-collapse: separate;
     color: rgb(34, 34, 34);
     display: block;
@@ -216,17 +216,30 @@ ul li p {
     white-space: nowrap;
     width: 20px;
 }
-
 .searchBarBox {
-	float: left;display: inline-block;
-	border-collapse: separate;
+    float: left;
+    display: inline-block;
+    border-collapse: separate;
     overflow: hidden;
     height: 22px;
     max-height: 22px;
+    display:table-cell;
+    border-collapse: separate;
+    color: rgb(34, 34, 34);
+    display: block;
+    font-family: arial, sans-serif;
+    font-size: 13px;
+    height: 22px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 0px;
+    vertical-align: top;
+    visibility: visible;
+    float: left;
 }
-
 .searchBar {
-    overflow-x: hidden;
+    overflow-x: visible;
     overflow-y: hidden;
     resize:none;
     -webkit-appearance: none;
@@ -289,7 +302,21 @@ ul li p {
     word-wrap: break-word;
     writing-mode: lr-tb;
     background: transparent;
-    height: 22px;
+    height: 16px;
     max-height: 22px;
-    width: 100%;
+    width: 50px;
+    display:table-cell;
+    border-collapse: separate;
+    color: rgb(34, 34, 34);
+    display: block;
+    font-family: arial, sans-serif;
+    font-size: 13px;
+    height: 22px;
+    padding-bottom: 3px;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 2px;
+    vertical-align: top;
+    visibility: visible;
+    float: left;
 }

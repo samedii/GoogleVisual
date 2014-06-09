@@ -33,7 +33,7 @@
                     </div>
                 </div>
                 <div class="searchBarBox">
-                	<input type="text" rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
+                	<input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" expanding rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
                 </div>
             </div>
             

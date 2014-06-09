@@ -63,7 +63,22 @@ app.filter('separateTerms', function() {
     };
 
 });
+/*
+app.directive('expanding', function() {
+    return {
+        link: function($scope, $element, $attributes) {
 
+            $element.on('keypress', function() {
+                $element.animate({
+                    width: (($element.value.length + 1) * 8)
+                }, 500, function() {
+                    // Animation complete.
+                });
+            });
+        }
+    };
+});
+*/
 // The controller
 
 function HistoryController($scope) {
