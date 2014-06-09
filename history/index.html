@@ -25,16 +25,21 @@
         <form ng-submit="searchSubmitted()">
             <input name="currentSearchQuery" type="hidden" ng-model="currentSearchQuery">
             <!-- Visual representation of current search query -->
-            <div class="termsContainer">
+            <div class="searchContainer">
                 <div ng-repeat="term in (currentSearchQuery | separateTerms)" class="termBox">
                     <div class="insideTermBox">
                         <span class="term">{{term}}</span>
                         <div class="termCross"></div>
                     </div>
                 </div>
+                <div class="searchBarBox">
+                	<input type="text" rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
+                </div>
             </div>
-            <!-- Visual representation of current search query -->
+            
+            <!--  
             <input type="text" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" placeholder="Enter your search terms" />
+            -->
         </form>
     </div>
 

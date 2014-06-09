@@ -76,7 +76,7 @@ function HistoryController($scope) {
 
     $scope.searchQueryAddition = "";
 
-    $scope.currentSearchQuery = "test+speed-bandwidth";
+    $scope.currentSearchQuery = "Bahram-Sarban";
 
     $scope.searchSubmitted = function() {
         if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
@@ -97,6 +97,7 @@ function HistoryController($scope) {
             }
             $scope.currentSearchQuery += m;
             $scope.searchQueryAddition = $scope.searchQueryAddition.replace(m, '');
+            console.log($scope.currentSearchQuery);
         }
     };
 
