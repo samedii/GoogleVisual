@@ -103,15 +103,10 @@ ul li p {
     outline-width: 0px;
     overflow-x: hidden;
     overflow-y: hidden;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
     transition-delay: 0s;
     transition-duration: 0s;
     transition-property: all;
     transition-timing-function: ease;
-    padding: 4px;
     text-align: left;
     border: none;
     border-radius: 2px;
@@ -120,8 +115,10 @@ ul li p {
     color: #738289;
     outline: none;
     display: table;
-    border-collapse: collapse;
+    border-collapse: seperate;
+    border-spacing: 3px;
     width: 400px;
+    cursor: text;
 }
 .termBox {
     display:table-cell;
@@ -175,7 +172,7 @@ ul li p {
 .term {
     border-collapse: separate;
     color: rgb(34, 34, 34);
-    cursor: move;
+    cursor: default;
     direction: ltr;
     display: inline-block;
     font-family: arial, sans-serif;
