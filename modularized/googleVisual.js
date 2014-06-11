@@ -1,5 +1,5 @@
 // Define a new module for our app
-var app = angular.module("history", []);
+var app = angular.module("googleVisual", ["googleService"]);
 
 // Create the instant search filter
 // 
