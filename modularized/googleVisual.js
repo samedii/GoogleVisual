@@ -93,8 +93,7 @@ app.controller("HistoryController", ["$scope", "GoogleService", function($scope,
 
     $scope.currentSearchQuery = "Bahram-Sarban";
 
-    var api = GoogleService;
-    $scope.searchData = api.data;
+    $scope.searchData = GoogleService.data; // DOES THIS ACTUALLY CREATE A BINDING? WTF?
 
     $scope.searchSubmitted = function() {
         if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
@@ -105,7 +104,7 @@ app.controller("HistoryController", ["$scope", "GoogleService", function($scope,
         $scope.searchQueryAddition = "";
 
 
-        api.search($scope.currentSearchQuery);
+        GoogleService.search($scope.currentSearchQuery);
     };
 
     $scope.searchQueryAdditionFieldChanged = function() {
