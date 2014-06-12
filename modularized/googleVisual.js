@@ -1,5 +1,5 @@
 // Define a new module for our app
-var app = angular.module("googleVisual", ["googleService"]);
+var app = angular.module("googleVisual", ["google"]);
 
 // Create the instant search filter
 // 
@@ -81,7 +81,7 @@ app.directive('expanding', function() {
 */
 // The controller
 
-function HistoryController($scope) {
+app.controller("HistoryController", ["$scope", "GoogleService", function($scope, GoogleService) {
 
     // The data model. These items would normally be requested via AJAX,
     // but are hardcoded here for simplicity. See the next example for
@@ -93,6 +93,9 @@ function HistoryController($scope) {
 
     $scope.currentSearchQuery = "Bahram-Sarban";
 
+    var api = GoogleService;
+    $scope.searchData = api.data;
+
     $scope.searchSubmitted = function() {
         if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
             $scope.currentSearchQuery += '+';
@@ -100,6 +103,9 @@ function HistoryController($scope) {
         $scope.currentSearchQuery += $scope.searchQueryAddition;
         $scope.queryHistory.push($scope.currentSearchQuery);
         $scope.searchQueryAddition = "";
+
+
+        api.search($scope.currentSearchQuery);
     };
 
     $scope.searchQueryAdditionFieldChanged = function() {
@@ -116,4 +122,7 @@ function HistoryController($scope) {
         }
     };
 
-}
+    
+    
+
+}]);
