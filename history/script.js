@@ -1,4 +1,5 @@
 // Define a new module for our app
+
 angular.module("history", ['ngAnimate'])
     .filter('matchOldQuery', function() {
 
