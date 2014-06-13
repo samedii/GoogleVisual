@@ -1,68 +1,100 @@
 // Define a new module for our app
-var app = angular.module("history", ['ngAnimate']);
+angular.module("history", ['ngAnimate'])
+    .filter('matchOldQuery', function() {
 
-// Create the instant search filter
-// 
-app.filter('matchOldQuery', function() {
+        // All filters must return a function. The first parameter
+        // is the data that is to be filtered, and the second is an
+        // argument that may be passed with a colon (searchFor:searchString)
 
-    // All filters must return a function. The first parameter
-    // is the data that is to be filtered, and the second is an
-    // argument that may be passed with a colon (searchFor:searchString)
+        function startsWith(string, prefix) {
+            return string.indexOf(prefix) === 0;
+        }
 
-    function startsWith(string, prefix) {
-        return string.indexOf(prefix) === 0;
-    }
+        return function(queries) {
 
-    return function(queries) {
+            var result = [];
 
-        var result = [];
+            // Using the forEach helper method to loop through the array
 
-        // Using the forEach helper method to loop through the array
+            var oldQueryString;
 
-        var oldQueryString;
+            angular.forEach(queries, function(queryString) {
 
-        angular.forEach(queries, function(queryString) {
+                if (startsWith(queryString, oldQueryString)) {
+                    result.push(queryString.substring(oldQueryString.length, queryString.length));
 
-            if (startsWith(queryString, oldQueryString)) {
-                result.push(queryString.substring(oldQueryString.length, queryString.length));
+                } else {
+                    result.push(queryString);
+                }
 
-            } else {
-                result.push(queryString);
-            }
+                oldQueryString = queryString;
+            });
 
-            oldQueryString = queryString;
-        });
+            return result;
 
-        return result;
+        };
 
-    };
+    })
+    .filter('separateTerms', function() {
 
-});
+        // All filters must return a function. The first parameter
+        // is the data that is to be filtered, and the second is an
+        // argument that may be passed with a colon (searchFor:searchString)
 
-app.filter('separateTerms', function() {
-
-    // All filters must return a function. The first parameter
-    // is the data that is to be filtered, and the second is an
-    // argument that may be passed with a colon (searchFor:searchString)
-
-    var allDelimiters = [
-        "+",
-        "-"
-        /*,
+        var allDelimiters = [
+            "+",
+            "-"
+            /*,
 		"OR",
 		"intext:",
 		"related:",
 		"link:",
 		"site:"*/
-    ];
+        ];
 
 
 
-    return function(queryString) {
-        return queryString.split(/(?=[\+-])/g);
-    };
+        return function(queryString) {
+            return queryString.split(/(?=[\+-])/g);
+        };
 
-});
+    })
+    .controller("HistoryController", function HistoryController($scope) {
+
+        // The data model. These items would normally be requested via AJAX,
+        // but are hardcoded here for simplicity. See the next example for
+        // tips on using AJAX.
+
+        $scope.queryHistory = [];
+
+        $scope.searchQueryAddition = "";
+
+        $scope.currentSearchQuery = "Bahram-Sarban";
+
+        $scope.searchSubmitted = function() {
+            if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
+                $scope.currentSearchQuery += '+';
+            }
+            $scope.currentSearchQuery += $scope.searchQueryAddition;
+            $scope.queryHistory.push($scope.currentSearchQuery);
+            $scope.searchQueryAddition = "";
+        };
+
+        $scope.searchQueryAdditionFieldChanged = function() {
+            console.log("Detected change");
+            var m = $scope.searchQueryAddition.match(/.+(?=[\+-\s])/);
+            if (m && m.length > 0) {
+
+                if (m[0].search(/[\+-\s]/) === -1) {
+                    $scope.currentSearchQuery += '+';
+                }
+                $scope.currentSearchQuery += m;
+                $scope.searchQueryAddition = $scope.searchQueryAddition.replace(m, '');
+                console.log($scope.currentSearchQuery);
+            }
+        };
+
+    });
 /*
 app.directive('expanding', function() {
     return {
@@ -80,40 +112,3 @@ app.directive('expanding', function() {
 });
 */
 // The controller
-
-function HistoryController($scope) {
-
-    // The data model. These items would normally be requested via AJAX,
-    // but are hardcoded here for simplicity. See the next example for
-    // tips on using AJAX.
-
-    $scope.queryHistory = [];
-
-    $scope.searchQueryAddition = "";
-
-    $scope.currentSearchQuery = "Bahram-Sarban";
-
-    $scope.searchSubmitted = function() {
-        if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
-            $scope.currentSearchQuery += '+';
-        }
-        $scope.currentSearchQuery += $scope.searchQueryAddition;
-        $scope.queryHistory.push($scope.currentSearchQuery);
-        $scope.searchQueryAddition = "";
-    };
-
-    $scope.searchQueryAdditionFieldChanged = function() {
-        console.log("Detected change");
-        var m = $scope.searchQueryAddition.match(/.+(?=[\+-\s])/);
-        if (m && m.length > 0) {
-
-            if (m[0].search(/[\+-\s]/) === -1) {
-                $scope.currentSearchQuery += '+';
-            }
-            $scope.currentSearchQuery += m;
-            $scope.searchQueryAddition = $scope.searchQueryAddition.replace(m, '');
-            console.log($scope.currentSearchQuery);
-        }
-    };
-
-}
