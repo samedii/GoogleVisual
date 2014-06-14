@@ -82,7 +82,7 @@ angular.module("history", ['ngAnimate'])
         };
 
         $scope.searchQueryAdditionFieldChanged = function() {
-            console.log("Detected change");
+
             var m = $scope.searchQueryAddition.match(/.+(?=[\+-\s])/);
             if (m && m.length > 0) {
 
@@ -91,7 +91,7 @@ angular.module("history", ['ngAnimate'])
                 }
                 $scope.currentSearchQuery += m;
                 $scope.searchQueryAddition = $scope.searchQueryAddition.replace(m, '');
-                console.log($scope.currentSearchQuery);
+
             }
         };
 

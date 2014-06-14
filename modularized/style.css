@@ -35,7 +35,7 @@ section, footer, header, aside, nav {
     border-radius: 2px;
     width: 400px;
     padding: 14px;
-    margin: 80px auto 20px;
+    margin: 20px auto 20px;
     position:relative;
 }
 ul {
@@ -49,14 +49,8 @@ ul li {
     padding: 10px;
     overflow: hidden;
 }
-ul li img {
-    width:60px;
-    height:60px;
-    float:left;
-    border:none;
-}
 ul li p {
-    margin-left: 75px;
+    margin-left: 4px;
     font-weight: bold;
     padding-top: 12px;
     color:#6e7a7f;

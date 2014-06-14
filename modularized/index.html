@@ -11,13 +11,19 @@
     <link href="style.css" rel="stylesheet" />
 
     <!--[if lt IE 9]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]-->
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
 </head>
 
 <!-- Initialize a new AngularJS app and associate it with a module named "instantSearch"-->
 
 <body ng-app="googleVisual" ng-controller="HistoryController">
+
+    <ul>
+        <li ng-repeat="query in queryHistory | matchOldQuery track by $index">
+            <p>{{query}}</p>
+        </li>
+    </ul>
 
     <div class="bar">
         <!-- Create a binding between the searchString model and the text field -->
@@ -32,23 +38,16 @@
                     </div>
                 </div>
                 <div class="searchBarBox">
-                	<input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" expanding rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
+                    <input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" expanding rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
                 </div>
             </div>
-            
-            <!--  
-            <input type="text" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" placeholder="Enter your search terms" />
-            -->
+
         </form>
     </div>
 
     <ul>
-        <!-- Render a li element for every entry in the items array. Notice
-				 the custom search filter "searchFor". It takes the value of the
-				 searchString model as an argument.
-			 -->
-        <li ng-repeat="query in queryHistory | matchOldQuery track by $index">
-            <p>{{query}}</p>
+        <li ng-repeat="result in searchData">
+            <p>{{result.htmlTitle}}</p>
         </li>
     </ul>
 
@@ -58,7 +57,7 @@
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-animate.min.js"></script>-->
     <script src="googleService.js"></script>
     <script src="googleVisual.js"></script>
-    
+
 </body>
 
 </html>
