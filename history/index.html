@@ -19,8 +19,15 @@
 
 <body ng-app="history" ng-controller="HistoryController">
 
+
+
+    <ul>
+        <li ng-repeat="query in queryHistory | matchOldQuery track by $index">
+            <p>{{query}}</p>
+        </li>
+    </ul>
+
     <div class="bar">
-        <!-- Create a binding between the searchString model and the text field -->
         <form ng-submit="searchSubmitted()">
             <input name="currentSearchQuery" type="hidden" ng-model="currentSearchQuery">
             <!-- Visual representation of current search query -->
@@ -32,29 +39,16 @@
                     </div>
                 </div>
                 <div class="searchBarBox">
-                	<input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" expanding rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
+                    <input type="text" onkeypress="this.style.width = ((this.value.length + 1) * 8) + 'px';" expanding rows="1" class="searchBar" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" spellcheck="false" autocomplete="false" autocapitalize="off" autocorrect="off" />
                 </div>
             </div>
-            
-            <!--  
-            <input type="text" ng-model="searchQueryAddition" ng-change="searchQueryAdditionFieldChanged()" placeholder="Enter your search terms" />
-            -->
         </form>
     </div>
 
-    <ul>
-        <!-- Render a li element for every entry in the items array. Notice
-				 the custom search filter "searchFor". It takes the value of the
-				 searchString model as an argument.
-			 -->
-        <li ng-repeat="query in queryHistory | matchOldQuery track by $index">
-            <p>{{query}}</p>
-        </li>
-    </ul>
 
     <!-- Include AngularJS from Google's CDN -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-animate.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular-animate.min.js"></script>
     <script src="script.js"></script>
 </body>
 
