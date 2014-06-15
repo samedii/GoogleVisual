@@ -46,8 +46,8 @@
     </div>
 
     <ul>
-        <li ng-repeat="result in searchData">
-            <p>{{result.htmlTitle}}</p>
+        <li ng-repeat="item in searchData[searchData.length-1].items">
+            <p>{{item.title}}</p>
         </li>
     </ul>
 

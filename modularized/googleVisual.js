@@ -62,17 +62,13 @@ angular.module("googleVisual", ["google"])
     .controller("HistoryController", ["$scope", "GoogleService",
         function($scope, GoogleService) {
 
-            // The data model. These items would normally be requested via AJAX,
-            // but are hardcoded here for simplicity. See the next example for
-            // tips on using AJAX.
-
             $scope.queryHistory = [];
 
             $scope.searchQueryAddition = "";
 
             $scope.currentSearchQuery = "Bahram-Sarban";
 
-            $scope.searchData = GoogleService.data.items; // DOES THIS ACTUALLY CREATE A BINDING? WTF?
+            $scope.searchData = GoogleService.data.search;
 
             $scope.searchSubmitted = function() {
                 if ($scope.searchQueryAddition.search(/[\+-\s]/) === -1) {
