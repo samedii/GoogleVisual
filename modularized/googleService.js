@@ -28,12 +28,12 @@ angular.module("google", ["ngResource"])
 
             var GoogleServiceAPI = {
                 data: {
-                    items: {}
+                    search: []
                 },
                 search: function(searchQuery) {
                     api.search({q: searchQuery}, function(someData) {
                         console.log(someData);
-                        GoogleServiceAPI.data = someData;
+                        GoogleServiceAPI.data.search.push(someData);
                     });
                 }
             };
